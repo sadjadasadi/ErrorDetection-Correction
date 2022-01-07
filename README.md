@@ -1,1 +1,1 @@
-# ErrorDetectionMemory
+# ErrorDetection

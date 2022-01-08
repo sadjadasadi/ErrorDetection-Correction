@@ -41,7 +41,7 @@ float even_parity(bool org_mem[ROWS][COLS], bool CEPB[ROWS][COLS + PARITY_No], b
 		}
 		cout << endl;
 	}*/
-	cout << "\n  >Correct Even Parity (CEP) Finished\n";
+	cout << "  >Correct Even Parity (CEP) Finished\n";
 	//======================================================================================================================
 	
 	// error injection 
@@ -66,7 +66,7 @@ float even_parity(bool org_mem[ROWS][COLS], bool CEPB[ROWS][COLS + PARITY_No], b
 		}
 		cout << endl;
 	}*/
-	cout << "\n  >Fault Even Parity (FEP) Finished\n\n";
+	cout << "  >Fault Even Parity (FEP) Finished\n";
 	//======================================================================================================================
 
 	// check parity after error injection 
@@ -170,7 +170,7 @@ float odd_parity(bool org_mem[ROWS][COLS], bool COPB[ROWS][COLS + PARITY_No], bo
 		}
 
 	}*/
-	cout << "\n\n  >Correct Odd Parity (COP) Finished\n\n";
+	cout << "  >Correct Odd Parity (COP) Finished\n";
 	//========================================================================================================================
 	
 	//inject error to correct data
@@ -193,7 +193,7 @@ float odd_parity(bool org_mem[ROWS][COLS], bool COPB[ROWS][COLS + PARITY_No], bo
 		}
 		cout << endl;
 	}*/
-	cout << "\n\n  >Fault Odd Parity (FOP) Finished\n\n";
+	cout << "  >Fault Odd Parity (FOP) Finished\n";
 
 	//=========================================================================================================================
 	
@@ -252,5 +252,140 @@ float odd_parity(bool org_mem[ROWS][COLS], bool COPB[ROWS][COLS + PARITY_No], bo
 	return (counter * 100 / (float)(ROWS));
 }
 
+float comb_parity(bool org_mem[ROWS][COLS], bool CCPB[ROWS][COLS + PARITY_No * 2], bool FCPB[ROWS][COLS + PARITY_No * 2], bool burst)
+{
+	//calc parity befor error injection
+
+	bool parity[ROWS][PARITY_No * 2] = {};
+
+	for (int i = 0; i < ROWS; i++)
+	{
+		for (int j = 0; j < COLS; j++)
+		{
+			if (!(j % (COLS / (PARITY_No * 2))))
+			{
+				parity[i][j / (COLS / (PARITY_No * 2))] = org_mem[i][j] ^ false;
+			}
+			else
+			{
+				parity[i][j / (COLS / (PARITY_No * 2))] ^= org_mem[i][j];
+			}
+		}
+		for (int k = 0; k < PARITY_No * 2; k++)
+		{
+			if (k % 2)
+			{
+				parity[i][k] = parity[i][k];
+			}
+			else
+			{
+				parity[i][k] = !parity[i][k];
+			}
+			//check!
+			//	cout << parity[i][k];
+		}
+	}
+
+	for (int i = 0; i < ROWS; i++)
+	{
+		int counter = 0;
+		for (int j = 0; j < COLS + PARITY_No * 2; j++)
+		{
+			if (!((j + 1) % ((COLS + PARITY_No * 2) / (PARITY_No * 2))))
+			{
+				CCPB[i][j] = parity[i][counter];
+				FCPB[i][j] = parity[i][counter];
+				counter++;
+
+				//check!
+				//cout << "|" << CCPB[i][j] << "|";
+			}
+			else
+			{
+				CCPB[i][j] = org_mem[i][j - counter];
+				FCPB[i][j] = org_mem[i][j - counter];
+
+				//check!
+				//cout << CCPB[i][j];
+			}
+		}
+	}
+
+	cout << "  >Corect Comb Parity (CCP) Finished\n";
+	//========================================================================================================================
+	
+	//error injection into correct data
+	int fault_P[ROWS][FAULT_No] = {};
+	fault_inject(fault_P, ROWS, COLS + PARITY_No * 2, burst);
+	for (int i = 0; i < ROWS; i++)
+	{
+		for (int j = 0; j < FAULT_No; j++)
+		{
+			FCPB[i][fault_P[i][j]] = !(FCPB[i][fault_P[i][j]]);
+		}
+	}
+
+	//check!
+	/*for (int i = 0;i < ROWS;i++)
+	{
+		for (int j = 0; j < COLS + PARITY_No * 2; j++)
+		{
+			cout << FCPB[i][j];
+		}
+		cout << endl;
+	}*/
+	cout << "  >Fault Comb Parity (FCP) Finished\n";
+	//===============================================================================================================================
+	
+	// calc parity after error injection and then, calc probability of error detection
+	bool AFparity[ROWS][PARITY_No * 2] = {};
+	int counter = 0;
+	for (int i = 0; i < ROWS; i++)
+	{
+		//cout << endl;
+		bool flag = false;
+		for (int j = 0; j < COLS + (PARITY_No * 2); j++)
+		{
+			if (!(j % ((COLS + (PARITY_No * 2)) / (PARITY_No * 2))))
+			{
+				AFparity[i][j / (((COLS + (PARITY_No * 2)) / (PARITY_No * 2)))] = FCPB[i][j] ^ false;
+			}
+			else
+			{
+				AFparity[i][j / (((COLS + (PARITY_No * 2)) / (PARITY_No * 2)))] ^= FCPB[i][j];
+			}
+		}
+
+		for (int k = 0; k < PARITY_No * 2; k++)
+		{
+			AFparity[i][k] = AFparity[i][k];
+			if (k % 2)
+			{
+
+				if (AFparity[i][k])
+				{
+					flag = true;
+					break;
+				}
+			}
+			else
+			{
+
+				if (!AFparity[i][k])
+				{
+					flag = true;
+					break;
+				}
+			}
+
+			//check !
+			//cout << AFparity[i][k];
+		}
+
+		if (flag) counter++;
+	}
+
+	return ((counter * 100) / (float)(ROWS));
+}
 
 

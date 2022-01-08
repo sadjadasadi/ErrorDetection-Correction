@@ -16,9 +16,9 @@ using namespace std;
 #define ROWS 16384  //4 
 #define COLS 64  //4 
 
-#define PARITY_No 8  //number of parity bit
+#define PARITY_No 16  //number of parity bit
 #define CRC_No 33
-#define FAULT_No 4   //number of error bit injection
+#define FAULT_No 2   //number of error bit injection
 
 
 
@@ -27,6 +27,6 @@ bool read_memory(bool mem[ROWS][COLS], string addr);
 
 float even_parity(bool org_mem[ROWS][COLS], bool CEPB[ROWS][COLS + PARITY_No], bool FEPB[ROWS][COLS + PARITY_No], bool burst);
 float odd_parity(bool org_mem[ROWS][COLS], bool COPB[ROWS][COLS + PARITY_No], bool FOPB[ROWS][COLS + PARITY_No], bool burst);
-
+float comb_parity(bool org_mem[ROWS][COLS], bool CCPB[ROWS][COLS + PARITY_No * 2], bool FCPB[ROWS][COLS + PARITY_No * 2], bool burst);
 
 bool  fault_inject(int fault_P[][FAULT_No], int rows, int cols, bool burst);

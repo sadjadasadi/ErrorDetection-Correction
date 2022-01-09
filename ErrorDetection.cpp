@@ -24,9 +24,12 @@ int main()
 	//bool F_2dPb[ROWS][COLS + 2 * PARITY_No] = {};
 
 	// CSChkSum (Correct Single CheckSum) FSChkSum (Fault Single CheckSum)
-	bool CSChkSum[ROWS + 1][COLS] = {};
-	bool FSChkSum[ROWS + 1][COLS] = {};
+	//bool CSChkSum[ROWS + 1][COLS] = {};
+	//bool FSChkSum[ROWS + 1][COLS] = {};
 
+	// CHChkSum (Correct Honneywell CheckSum) FHChkSum (Fault Honneywell CheckSum)
+	bool CHChkSum[ROWS + 2][COLS] = {};
+	bool FHChkSum[ROWS + 2][COLS] = {};
 
 	//cout << "------------------------------------------------------------------------------------------\n";
 	//cout << "Parity NO: " << PARITY_No  << "|Fault NO: " << FAULT_No << "|Burst: " << false << "|Probability of error detection(percent): " << even_parity(mem, CPb, FPb, false) << endl << endl;
@@ -43,9 +46,13 @@ int main()
 	//cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst: " << false << "|Probability of error detection(percent): " << parity_2d(mem, C_2dPb, F_2dPb, false) << endl << endl;
 	//cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst:" << true << "|Probability of error detection(percent): " << parity_2d(mem, C_2dPb, F_2dPb, true) << endl << endl;
 
+	//cout << "------------------------------------------------------------------------------------------\n";
+	//cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst: " << false << "|Probability of error detection(percent): " << single_checksum(mem, CSChkSum, FSChkSum, false) << endl << endl;
+	//cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst:" << true << "|Probability of error detection(percent): " << single_checksum(mem, CSChkSum, FSChkSum, true) << endl << endl;
+
 	cout << "------------------------------------------------------------------------------------------\n";
-	cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst: " << false << "|Probability of error detection(percent): " << single_checksum(mem, CSChkSum, FSChkSum, false) << endl << endl;
-	cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst:" << true << "|Probability of error detection(percent): " << single_checksum(mem, CSChkSum, FSChkSum, true) << endl << endl;
+	cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst: " << false << "|Probability of error detection(percent): " << honeywell_checksum(mem, CHChkSum, FHChkSum, false) << endl << endl;
+	cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst:" << true << "|Probability of error detection(percent): " << honeywell_checksum(mem, CHChkSum, FHChkSum, true) << endl << endl;
 
 
 

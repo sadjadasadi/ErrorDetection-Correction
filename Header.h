@@ -31,5 +31,8 @@ float comb_parity(bool org_mem[ROWS][COLS], bool CCPB[ROWS][COLS + PARITY_No * 2
 float parity_2d(bool org_mem[ROWS][COLS], bool C_2dPB[ROWS][COLS + PARITY_No * 2], bool F_2dPB[ROWS][COLS + PARITY_No * 2], bool burst);
 
 float single_checksum(bool org_mem[ROWS][COLS], bool CSingleChksum[ROWS + 1][COLS], bool FSingleChksum[ROWS + 1][COLS], bool burst);
+float honeywell_checksum(bool org_mem[ROWS][COLS], bool CHoneywellChkSum[ROWS + 2][COLS], bool FHoneywellChkSum[ROWS + 2][COLS], bool burst);
+
+
 
 bool  fault_inject(int fault_P[][FAULT_No], int rows, int cols, bool burst);

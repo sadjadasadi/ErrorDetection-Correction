@@ -1,4 +1,4 @@
-#include "Header.h"
+﻿#include "Header.h"
 
 float single_checksum(bool org_mem[ROWS][COLS], bool CSingleChksum[ROWS + 1][COLS], bool FSingleChksum[ROWS + 1][COLS], bool burst)
 {
@@ -246,4 +246,138 @@ float honeywell_checksum(bool org_mem[ROWS][COLS], bool CHoneywellChkSum[ROWS + 
 	else return 100;
 }
 
+float residue_checksum(bool org_mem[ROWS][COLS], bool  CResidueChksum[ROWS + 1][COLS], bool  FResidueChksum[ROWS + 1][COLS], bool burst)
+{
+	//calc residue checksum for correct data
+	
+	int carry = 0;
+	int one = 0;
+	bool  Checksum[COLS] = {};
+	for (int i = COLS - 1; i > -1; i--)
+	{
+		for (int j = 0; j < ROWS; j++)
+		{
+			if (org_mem[j][i])one++;
+		}
+		Checksum[i] = (carry + one) % 2;
+		carry = (one + carry) / 2;
+		one = 0;
+
+		//check!
+		//cout << "\n" << Checksum[i] << endl;
+	}
+	while (carry)
+	{
+		for (int i = COLS - 1; i > -1; i--)
+		{
+			if (Checksum[i]) one++;
+			Checksum[i] = (carry + one) % 2;
+			carry = (one + carry) / 2;
+			one = 0;
+			
+			//check!
+			//cout << "\n" << Checksum[i] << "---" << carry << endl;
+		}
+	}
+
+	for (int i = 0; i < ROWS; i++)
+	{
+		for (int j = 0; j < COLS; j++)
+		{
+			CResidueChksum[i][j] = org_mem[i][j];
+			FResidueChksum[i][j] = org_mem[i][j];
+		}
+	}
+	for (int j = 0; j < COLS; j++)
+	{
+		CResidueChksum[ROWS][j] = Checksum[j];
+		FResidueChksum[ROWS][j] = Checksum[j];
+	}
+
+
+	//check!
+	/*for (int i = 0; i < ROWS + 1; i++)
+	{
+		cout << endl;
+		for (int j = 0;j < COLS;j++)
+		{
+			cout << CResidueChksum[i][j];
+		}
+	}*/
+	cout << "\n >Correct Residue Checksum (CRChkSum) Finished\n";
+	//=======================================================================================================
+
+	//inject error into correct data
+
+	int fault_P[ROWS + 1][FAULT_No] = {};
+	fault_inject(fault_P, ROWS + 1, COLS, burst);
+	for (int i = 0; i < ROWS + 1; i++)
+	{
+		for (int j = 0; j < FAULT_No; j++)
+		{
+			FResidueChksum[i][fault_P[i][j]] = !(FResidueChksum[i][fault_P[i][j]]);
+		}
+	}
+
+	//check!
+	//for (int i = 0;i < ROWS + 1;i++)
+	//{
+	//	for (int j = 0; j < COLS; j++)
+	//	{
+	//		cout << FResidueChksum[i][j];
+	//	}
+	//	cout << endl;
+	//}
+	cout << "\n >Fault Residue Checksum (FRChkSum) Finished\n";
+
+	//==========================================================================================================================
+	
+	//calc chesum for fault data
+	bool AChecksum[COLS] = {};
+	carry = 0;
+	one = 0;
+	for (int i = COLS - 1; i > -1; i--)
+	{
+		for (int j = 0; j < ROWS; j++)
+		{
+			if (FResidueChksum[j][i])one++;
+		}
+		AChecksum[i] = (carry + one) % 2;
+		carry = (one + carry) / 2;
+		one = 0;
+	}
+	while (carry)
+	{
+		for (int i = COLS - 1; i > -1; i--)
+		{
+			if (AChecksum[i]) one++;
+			AChecksum[i] = (carry + one) % 2;
+			carry = (one + carry) / 2;
+			one = 0;
+		}
+	}
+
+	//check!
+	/*cout << endl;
+	for (int j = 0; j < COLS; j++)
+	{
+		cout << AChecksum[j]<<" - "<<FResidueChksum[ROWS][j]<<" | ";
+	}*/
+
+	//============================================================================================
+	
+	//calc probability of error detection
+	bool flag = true;
+	for (int j = 0; j < COLS; j++)
+	{
+		if (AChecksum[j] != FResidueChksum[ROWS][j])
+		{
+			flag = false;
+			break;
+		}
+	}
+
+	if (flag) return 0;
+	else return 100;
+}
 

@@ -12,13 +12,12 @@ using namespace std;
 
 
 #define MEM_FILE_ADDR "mem.bin"
-#define LmemFileAddr "Lmem.bin"
-#define ROWS 16384  //4 
-#define COLS 64  //4 
+#define ROWS 16384   
+#define COLS 64  
 
-#define PARITY_No 3  //number of parity bit
+#define PARITY_No 5  //number of parity bit
 #define CRC_No 33
-#define FAULT_No 5    //number of error bit injection
+#define FAULT_No 3    //number of error bit injection
 
 
 
@@ -32,6 +31,7 @@ float parity_2d(bool org_mem[ROWS][COLS], bool C_2dPB[ROWS][COLS + PARITY_No * 2
 
 float single_checksum(bool org_mem[ROWS][COLS], bool CSingleChksum[ROWS + 1][COLS], bool FSingleChksum[ROWS + 1][COLS], bool burst);
 float honeywell_checksum(bool org_mem[ROWS][COLS], bool CHoneywellChkSum[ROWS + 2][COLS], bool FHoneywellChkSum[ROWS + 2][COLS], bool burst);
+float residue_checksum(bool org_mem[ROWS][COLS], bool  CResidueChksum[ROWS + 1][COLS], bool  FResidueChksum[ROWS + 1][COLS], bool burst);
 
 
 

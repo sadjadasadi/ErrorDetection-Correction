@@ -30,5 +30,6 @@ float odd_parity(bool org_mem[ROWS][COLS], bool COPB[ROWS][COLS + PARITY_No], bo
 float comb_parity(bool org_mem[ROWS][COLS], bool CCPB[ROWS][COLS + PARITY_No * 2], bool FCPB[ROWS][COLS + PARITY_No * 2], bool burst);
 float parity_2d(bool org_mem[ROWS][COLS], bool C_2dPB[ROWS][COLS + PARITY_No * 2], bool F_2dPB[ROWS][COLS + PARITY_No * 2], bool burst);
 
+float single_checksum(bool org_mem[ROWS][COLS], bool CSingleChksum[ROWS + 1][COLS], bool FSingleChksum[ROWS + 1][COLS], bool burst);
 
 bool  fault_inject(int fault_P[][FAULT_No], int rows, int cols, bool burst);

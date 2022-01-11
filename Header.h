@@ -36,5 +36,6 @@ float residue_checksum(bool org_mem[ROWS][COLS], bool  CResidueChksum[ROWS + 1][
 float cyclic_redundancy_check(bool org_mem[ROWS][COLS], bool divisor[CRC_No], bool CCRCMEM[ROWS][COLS + CRC_No - 1], bool FCRCMEM[ROWS][COLS + CRC_No - 1], bool burst);
 float comb_CRC(bool org_mem[ROWS][COLS], bool divisor[CRC_No], bool CCRCMEM[ROWS][COLS + CRC_No - 1], bool FCRCMEM[ROWS][COLS + CRC_No - 1], bool burst);
 
+float hamming(bool org_mem[ROWS][COLS], bool CHamming[ROWS][COLS + (COLS / 4) * 3], bool FHamming[ROWS][COLS + (COLS / 4) * 3], bool DCEHamming[ROWS][COLS + (COLS / 4) * 3], bool burst);
 
 bool  fault_inject(int fault_P[][FAULT_No], int rows, int cols, bool burst);

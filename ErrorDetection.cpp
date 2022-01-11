@@ -36,11 +36,16 @@ int main()
 	//bool FRChkSum[ROWS + 1][COLS] = {};
 
 	// CCRCcode (Correct Cyclic Redundancy Check) FCRCcode (Fault Cyclic Redundancy Check)
-	bool CCRCcode[ROWS][COLS + CRC_No - 1] = {};
-	bool FCRCcode[ROWS][COLS + CRC_No - 1] = {};
+	//bool CCRCcode[ROWS][COLS + CRC_No - 1] = {};
+	//bool FCRCcode[ROWS][COLS + CRC_No - 1] = {};
 	// standard polynomial(divisor) { x^32,x^31,x^30,x^29,x^28,x^27,...,x^6,x^5,x^4,x^3,x^2,x^1,x^0}
-	bool divisor[CRC_No] = { 1,1,0,0,0,0,0,0,1,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,1,1,0,1,0,1,0,1,1 };
+	//bool divisor[CRC_No] = { 1,1,0,0,0,0,0,0,1,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,1,1,0,1,0,1,0,1,1 };
 	//bool divisor[CRC_No] = { 1,0,1,1,1,0,1,0,0,0,0,0,1,1,0,1,1,1,0,0,0,1,1,0,0,1,1,0,1,0,1,1,1 };
+
+	// CHammingcode (Correct Hammingcode) FHammingcode (Fault Hammingcode) DCEHammingcode (Detect and Correct Error Hammingcode)
+	bool CHammingcode[ROWS][COLS + (COLS / 4 * 3)] = {};
+	bool FHammingcode[ROWS][COLS + (COLS / 4 * 3)] = {};
+	bool DCEHammingcode[ROWS][COLS + (COLS / 4 * 3)] = {};
 
 
 	//cout << "------------------------------------------------------------------------------------------\n";
@@ -76,9 +81,12 @@ int main()
 
 
 	//cout << "------------------------------------------------------------------------------------------\n";
-	cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst: " << false << "|Probability of error detection(percent): " << comb_CRC(mem, divisor, CCRCcode, FCRCcode, false) << endl << endl;
-	cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst:" << true << "|Probability of error detection(percent): " << comb_CRC(mem, divisor, CCRCcode, FCRCcode, false) << endl << endl;
+	//cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst: " << false << "|Probability of error detection(percent): " << comb_CRC(mem, divisor, CCRCcode, FCRCcode, false) << endl << endl;
+	//cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst:" << true << "|Probability of error detection(percent): " << comb_(mem, divisor, CCRCcode, FCRCcode, false) << endl << endl;
 
+	cout << "------------------------------------------------------------------------------------------\n";
+	cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst: " << false << "|Probability of error detection(percent): " << hamming(mem, CHammingcode, FHammingcode, DCEHammingcode, false) << endl << endl;
+	cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst:" << true << "|Probability of error detection(percent): " << hamming(mem, CHammingcode, FHammingcode, DCEHammingcode, true) << endl << endl;
 
 
 	clock_t end = clock();

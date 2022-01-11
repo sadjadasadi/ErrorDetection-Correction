@@ -28,12 +28,19 @@ int main()
 	//bool FSChkSum[ROWS + 1][COLS] = {};
 
 	// CHChkSum (Correct Honneywell CheckSum) FHChkSum (Fault Honneywell CheckSum)
-	bool CHChkSum[ROWS + 2][COLS] = {};
-	bool FHChkSum[ROWS + 2][COLS] = {};
+	//bool CHChkSum[ROWS + 2][COLS] = {};
+	//bool FHChkSum[ROWS + 2][COLS] = {};
 
 	// CRChkSum (Correct residue CheckSum) FRChkSum (Fault residue CheckSum)
-	bool CRChkSum[ROWS + 1][COLS] = {};
-	bool FRChkSum[ROWS + 1][COLS] = {};
+	//bool CRChkSum[ROWS + 1][COLS] = {};
+	//bool FRChkSum[ROWS + 1][COLS] = {};
+
+	// CCRCcode (Correct Cyclic Redundancy Check) FCRCcode (Fault Cyclic Redundancy Check)
+	bool CCRCcode[ROWS][COLS + CRC_No - 1] = {};
+	bool FCRCcode[ROWS][COLS + CRC_No - 1] = {};
+	// standard polynomial(divisor) { x^32,x^31,x^30,x^29,x^28,x^27,...,x^6,x^5,x^4,x^3,x^2,x^1,x^0}
+	bool divisor[CRC_No] = { 1,1,0,0,0,0,0,0,1,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,1,1,0,1,0,1,0,1,1 };
+	//bool divisor[CRC_No] = { 1,0,1,1,1,0,1,0,0,0,0,0,1,1,0,1,1,1,0,0,0,1,1,0,0,1,1,0,1,0,1,1,1 };
 
 
 	//cout << "------------------------------------------------------------------------------------------\n";
@@ -59,9 +66,19 @@ int main()
 	//cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst: " << false << "|Probability of error detection(percent): " << honeywell_checksum(mem, CHChkSum, FHChkSum, false) << endl << endl;
 	//cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst:" << true << "|Probability of error detection(percent): " << honeywell_checksum(mem, CHChkSum, FHChkSum, true) << endl << endl;
 
-	cout << "------------------------------------------------------------------------------------------\n";
-	cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst: " << false << "|Probability of error detection(percent): " << residue_checksum(mem, CRChkSum, FRChkSum, false) << endl << endl;
-	cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst:" << true << "|Probability of error detection(percent): " << residue_checksum(mem, CRChkSum, FRChkSum, true) << endl << endl;
+	//cout << "------------------------------------------------------------------------------------------\n";
+	//cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst: " << false << "|Probability of error detection(percent): " << residue_checksum(mem, CRChkSum, FRChkSum, false) << endl << endl;
+	//cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst:" << true << "|Probability of error detection(percent): " << residue_checksum(mem, CRChkSum, FRChkSum, true) << endl << endl;
+
+	//cout << "------------------------------------------------------------------------------------------\n";
+	//cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst: " << false << "|Probability of error detection(percent): " << cyclic_redundancy_check(mem, divisor, CCRCcode, FCRCcode, false) << endl << endl;
+	//cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst:" << true << "|Probability of error detection(percent): " << cyclic_redundancy_check(mem, divisor, CCRCcode, FCRCcode, false) << endl << endl;
+
+
+	//cout << "------------------------------------------------------------------------------------------\n";
+	cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst: " << false << "|Probability of error detection(percent): " << comb_CRC(mem, divisor, CCRCcode, FCRCcode, false) << endl << endl;
+	cout << "Parity NO: " << PARITY_No << "|Fault NO: " << FAULT_No << "|Burst:" << true << "|Probability of error detection(percent): " << comb_CRC(mem, divisor, CCRCcode, FCRCcode, false) << endl << endl;
+
 
 
 	clock_t end = clock();

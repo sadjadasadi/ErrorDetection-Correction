@@ -33,6 +33,8 @@ float single_checksum(bool org_mem[ROWS][COLS], bool CSingleChksum[ROWS + 1][COL
 float honeywell_checksum(bool org_mem[ROWS][COLS], bool CHoneywellChkSum[ROWS + 2][COLS], bool FHoneywellChkSum[ROWS + 2][COLS], bool burst);
 float residue_checksum(bool org_mem[ROWS][COLS], bool  CResidueChksum[ROWS + 1][COLS], bool  FResidueChksum[ROWS + 1][COLS], bool burst);
 
+float cyclic_redundancy_check(bool org_mem[ROWS][COLS], bool divisor[CRC_No], bool CCRCMEM[ROWS][COLS + CRC_No - 1], bool FCRCMEM[ROWS][COLS + CRC_No - 1], bool burst);
+float comb_CRC(bool org_mem[ROWS][COLS], bool divisor[CRC_No], bool CCRCMEM[ROWS][COLS + CRC_No - 1], bool FCRCMEM[ROWS][COLS + CRC_No - 1], bool burst);
 
 
 bool  fault_inject(int fault_P[][FAULT_No], int rows, int cols, bool burst);

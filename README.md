@@ -1,5 +1,4 @@
 # ErrorDetection
-# readme
 This project contains C++ codes of some error detection and correction methods. these methods tested on memory structure data.
 
 * methods:  
@@ -8,7 +7,7 @@ single checksum, Honeywell checksum, residue checksum
 CRC(Cyclic Redundancy Check), combinational CRC  
 Hamming
 
-## Steps 
+### Steps 
 
 1. Config desire memory([Header]()):   
     rows, cols values  

@@ -9,9 +9,9 @@ Hamming
 
 ### Steps 
 
-1. Config desire memory([Header]()):   
+1. Config desire memory([Header](https://github.com/sadjadasadi/ErrorDetection/blob/main/Header.h)):   
     rows, cols values  
     call create_memory()
-2. Set Fault parameters ([Header]()):  
+2. Set Fault parameters ([Header](https://github.com/sadjadasadi/ErrorDetection/blob/main/Header.h)):  
     Fault_No or Parity_NO ,..
-3. Uncommect method and run [ErrorDetection]()
+3. Uncommect method and run [ErrorDetection](https://github.com/sadjadasadi/ErrorDetection/blob/main/ErrorDetection.cpp)
